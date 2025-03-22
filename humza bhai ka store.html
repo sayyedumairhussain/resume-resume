@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humza Sheikh Medical Store</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #e0f7fa, #e8f5e9);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        /* 🟢 Basic Header Styling (Same as Before) */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(120deg, #4caf50, #81c784);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: 0.3s ease-in-out;
+        }
+
+        /* 🟢 Navigation ko left side par rakhna */
+        nav {
+            flex: 1;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            padding-left: 20px;
+        }
+
+        nav ul li {
+            display: inline-block;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s ease-in-out;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            transform: scale(1.05);
+        }
+
+        /* 🟢 Text aur Logo ko center me lana */
+        .center-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .center-content img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .center-content .center-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* 🟢 Mobile Responsive Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle div {
+            width: 30px;
+            height: 4px;
+            background: white;
+            margin: 5px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        /* 🟢 Mobile View Changes */
+        @media screen and (max-width: 768px) {
+            header {
+                flex-direction: row-reverse;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background: rgba(76, 175, 80, 0.95);
+                width: 100%;
+                text-align: center;
+                padding: 20px;
+                border-radius: 0 0 10px 10px;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            /* 🟢 Mobile view pe text aur logo center me hi rahe */
+            .center-content {
+                flex: none;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .center-content img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .center-content .center-text {
+                font-size: 22px;
+            }
+        }
+
+
+        .gallery img {
+            width: 230px;
+            height: 230px;
+            border: 4px solid #4caf50;
+            border-radius: 15px;
+            object-fit: cover;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1) rotate(5deg);
+            border-color: #2e7d32;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 40px;
+            background: linear-gradient(120deg, #a5d6a7, #e8f5e9);
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 30px auto;
+            width: 80%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card img {
+            width: 230px;
+            height: 230px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .card {
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            width: 230px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+        }
+
+        .card-front {
+            background: white;
+            border-radius: 15px;
+            padding: 10px;
+        }
+
+        .card-back {
+            background: #4caf50;
+            border-radius: 15px;
+            padding: 10px;
+            color: white;
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .gallery img {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .gallery img:first-child {
+            opacity: 1;
+        }
+
+
+
+        .map iframe {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            background: linear-gradient(120deg, #4caf50, #388e3c);
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .about-us {
+            background: linear-gradient(120deg, #a5d6a7, #e8f5e9);
+            padding: 50px;
+            text-align: center;
+            border-radius: 15px;
+            width: 80%;
+            margin: 30px auto;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .about-us h2 {
+            font-size: 28px;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .about-us p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+
+        .contact-us {
+            background: linear-gradient(120deg, #a5d6a7, #e8f5e9);
+            padding: 50px;
+            text-align: center;
+            border-radius: 15px;
+            width: 80%;
+            margin: 30px auto;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .contact-us h2 {
+            font-size: 28px;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: #2e7d32;
+            box-shadow: 0px 0px 10px rgba(46, 125, 50, 0.5);
+        }
+
+        .contact-form button {
+            background: #4caf50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .contact-form button:hover {
+            background: #2e7d32;
+            transform: scale(1.05);
+        }
+
+        .map {
+            background: linear-gradient(120deg, #a5d6a7, #e8f5e9);
+            padding: 50px;
+            text-align: center;
+            border-radius: 15px;
+            width: 80%;
+            margin: 30px auto;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .map h2 {
+            font-size: 28px;
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .map iframe {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            border-radius: 15px;
+            border: 3px solid #4caf50;
+            transition: 0.3s ease-in-out;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .map iframe:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            transition: 0.3s ease-in-out;
+        }
+
+        .whatsapp-button img {
+            width: 35px;
+            height: 35px;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <header id="main-header">
+        <nav>
+            <ul id="menu">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </nav>
+
+        <div class="center-content">
+            <img src="logo.jpeg" alt="Logo">
+            <div class="center-text">Humza Sheikh Medical</div>
+        </div>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+
+
+    <div class="gallery">
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="medicine1.jpeg" alt="Medicine 1">
+                    <h3>Medicine 1</h3>
+                </div>
+                <div class="card-back">
+                    <p>For pain relief and fever.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="medicine2.jpeg" alt="Medicine 2">
+                    <h3>Medicine 2</h3>
+                </div>
+                <div class="card-back">
+                    <p>For cold and flu symptoms.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="medicine33.jpeg" alt="Medicine 3">
+                    <h3>Medicine 3</h3>
+                </div>
+                <div class="card-back">
+                    <p>Boosts immune system.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="about-us">
+        <h2>About Us</h2>
+        <p>Welcome to Humza Sheikh Medical Store! We provide high-quality medicines and healthcare products to ensure
+            your well-being. Our team is dedicated to offering the best services and guidance for your health needs.</p>
+    </section>
+
+
+    <section class="contact-us">
+        <h2>Contact Us</h2>
+        <form class="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+
+    <section class="map">
+        <h2>Find Us Here</h2>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345086205!2d144.95565131531855!3d-37.817323979751554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218cee40!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sin!4v1621502102821!5m2!1sen!2sin"
+            allowfullscreen="" loading="lazy">
+        </iframe>
+    </section>
+
+    <a href="https://wa.me/8287910416" class="whatsapp-button" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp Chat">
+    </a>
+
+
+
+    <footer>
+        <p>&copy; 2025 Humza Sheikh Medical Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 🟢 Responsive Navbar Toggle
+        function toggleMenu() {
+            let menu = document.getElementById("menu");
+            menu.classList.toggle("show");
+        }
+
+        // 🟢 Image Gallery Animation on Scroll
+        document.addEventListener("DOMContentLoaded", function () {
+            let galleryImages = document.querySelectorAll(".gallery img");
+
+            function fadeInImages() {
+                let scrollPosition = window.scrollY + window.innerHeight;
+                galleryImages.forEach(img => {
+                    if (scrollPosition > img.offsetTop + 50) {
+                        img.classList.add("fade-in");
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", fadeInImages);
+        });
+
+        // 🟢 Contact Form Validation
+        function validateForm() {
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let message = document.getElementById("message").value.trim();
+
+            if (name === "" || email === "" || message === "") {
+                alert("Please fill all fields.");
+                return false;
+            }
+
+            if (!/^\S+@\S+\.\S+$/.test(email)) {
+                alert("Please enter a valid email.");
+                return false;
+            }
+
+            alert("Message Sent Successfully!");
+            return true;
+        }
+
+        // 🟢 Map Animation on Hover
+        document.addEventListener("DOMContentLoaded", function () {
+            let mapContainer = document.getElementById("map-container");
+
+            mapContainer.addEventListener("mouseenter", function () {
+                this.style.transform = "scale(1.05)";
+                this.style.boxShadow = "0 10px 20px rgba(0, 0, 0, 0.3)";
+            });
+
+            mapContainer.addEventListener("mouseleave", function () {
+                this.style.transform = "scale(1)";
+                this.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.1)";
+            });
+        });
+
+        // 🟢 Flip Card Effect for Gallery Items
+        document.addEventListener("DOMContentLoaded", function () {
+            let cards = document.querySelectorAll(".flip-card");
+
+            cards.forEach(card => {
+                card.addEventListener("click", function () {
+                    this.classList.toggle("flipped");
+                });
+            });
+        });
+
+        // 🟢 Floating Chat Button (Click to Open WhatsApp)
+        document.addEventListener("DOMContentLoaded", function () {
+            let chatButton = document.createElement("div");
+            chatButton.innerHTML = `<a href="https://wa.me/8287910416" target="_blank">
+        <img src="chat-icon.png" alt="Chat" class="chat-icon">
+    </a>`;
+
+            chatButton.classList.add("floating-chat");
+            document.body.appendChild(chatButton);
+        });
+
+        // 🟢 Smooth Scrolling for Navigation Links
+        document.addEventListener("DOMContentLoaded", function () {
+            let links = document.querySelectorAll("nav ul li a");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    let targetId = this.getAttribute("href").substring(1);
+                    let targetSection = document.getElementById(targetId);
+
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 60,
+                        behavior: "smooth"
+                    });
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>
